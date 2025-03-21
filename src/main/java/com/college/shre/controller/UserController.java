@@ -2,35 +2,34 @@ package com.college.shre.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import com.college.shre.entity.User;
-import com.college.shre.service.UserService;
+import com.college.shre.service.UserServiceImpl;
+import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user") // Base path for all user-related endpoints
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @PostMapping("/create")
     public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+        return userServiceImpl.createUser(user);
     }
 
-    @PutMapping("/update/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    @PutMapping("/update")
+    public String updateUser(@RequestBody User user) {
+        return userServiceImpl.updateUser(user);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return "User deleted successfully!";
+    @DeleteMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable int userId) {
+        return userServiceImpl.deleteUser(userId);
     }
 
     @GetMapping("/details")
     public List<User> getUsers() {
-        return userService.getUsers();
+        return userServiceImpl.getUser();
     }
 }
