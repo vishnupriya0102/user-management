@@ -1,42 +1,43 @@
 package com.college.shre.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.college.shre.entity.User;
 import com.college.shre.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Override
+    ArrayList<User> users=new ArrayList<>();
+
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    @Override
-    public User updateUser(Long id, User user) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            User updatedUser = existingUser.get();
-            updatedUser.setName(user.getName());
-            updatedUser.setEmail(user.getEmail());
-            return userRepository.save(updatedUser);
-        }
-        return null;
+    public String updateUser(User user) {
+        userRepository.save(user);
+        return "User updated successfully";
     }
 
-    @Override
-    public void deleteUser(Long id) {
+    public String deleteUser(int id) {
         userRepository.deleteById(id);
+        return "User deleted successfully";
     }
 
-    @Override
-    public List<User> getUsers() {
+    public List<User> getUser() {
         return userRepository.findAll();
     }
 }
